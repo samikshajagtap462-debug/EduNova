@@ -1,0 +1,3418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduNova | Smart Faculty Timetable Management System</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================================
+       EXECUTIVE EMERALD & SAGE PALETTE (Strictly No Black, No Blue)
+       ===================================================================== */
+    :root {
+      --primary: #059669;
+      --primary-hover: #047857;
+      --primary-light: #ecfdf5;
+      --primary-glow: rgba(5, 150, 105, 0.16);
+      --primary-gradient: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+      
+      --secondary: #0d9488;
+      --secondary-light: #f0fdfa;
+      
+      --bg-page: #f8faf9;
+      --surface: #ffffff;
+      --surface-subtle: #f1f5f3;
+      --surface-border: #e2e9e4;
+      
+      --sidebar-bg: #ffffff;
+      --sidebar-border: #e2e9e4;
+      --sidebar-text: #526058;
+      --sidebar-active-bg: #eaf7f0;
+      --sidebar-active-text: #065f46;
+      --sidebar-active-border: #059669;
+      
+      --text-main: #192a20;
+      --text-muted: #526058;
+      --text-light: #8d9e95;
+      
+      --success: #059669;
+      --success-light: #ecfdf5;
+      --warning: #d97706;
+      --warning-light: #fffbeb;
+      --danger: #e11d48;
+      --danger-light: #fff1f2;
+      --info: #0d9488;
+      --info-light: #f0fdfa;
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      
+      --shadow-sm: 0 1px 3px rgba(15, 35, 25, 0.04);
+      --shadow-md: 0 4px 14px -2px rgba(15, 35, 25, 0.06), 0 2px 6px -1px rgba(15, 35, 25, 0.03);
+      --shadow-card: 0 16px 36px -8px rgba(15, 35, 25, 0.08);
+      
+      --sidebar-width: 250px;
+      --topbar-height: 70px;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+    }
+
+    body {
+      background: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Common utility classes */
+    .hidden {
+      display: none !important;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .badge-primary {
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid rgba(5, 150, 105, 0.2);
+    }
+
+    .badge-secondary {
+      background: var(--surface-subtle);
+      color: var(--text-muted);
+      border: 1px solid var(--surface-border);
+    }
+
+    .badge-success {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+
+    .badge-warning {
+      background: #fffbeb;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+
+    .badge-danger {
+      background: #fff1f2;
+      color: #e11d48;
+      border: 1px solid #fecdd3;
+    }
+
+    .badge-info {
+      background: var(--info-light);
+      color: var(--info);
+      border: 1px solid rgba(13, 148, 136, 0.25);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+      text-decoration: none;
+      line-height: 1.2;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 8px var(--primary-glow);
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 12px var(--primary-glow);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text-muted);
+      border-color: var(--surface-border);
+    }
+    .btn-secondary:hover {
+      background: var(--surface-subtle);
+      color: var(--text-main);
+      border-color: #cbd5e1;
+    }
+
+    .btn-success {
+      background: var(--primary);
+      color: #ffffff;
+    }
+    .btn-success:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-outline-danger {
+      background: transparent;
+      color: var(--danger);
+      border-color: #fecdd3;
+    }
+    .btn-outline-danger:hover {
+      background: var(--danger-light);
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 11.5px;
+      border-radius: 6px;
+    }
+
+    /* UI Cards */
+    .ui-card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--surface-border);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .ui-card-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--surface-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafcfb;
+    }
+
+    .ui-card-header h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ui-card-header h3 svg {
+      width: 18px;
+      height: 18px;
+      color: var(--primary);
+    }
+
+    .ui-card-body {
+      padding: 24px;
+    }
+
+    /* Tables */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      text-align: left;
+    }
+
+    .data-table th {
+      background: #f4f7f5;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--surface-border);
+      white-space: nowrap;
+    }
+
+    .data-table td {
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--surface-border);
+      vertical-align: middle;
+    }
+
+    .data-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tbody tr:hover {
+      background: #fbfdfc;
+    }
+
+    /* Free period distinct row */
+    .free-period-row td {
+      background: #f8faf9;
+      color: var(--text-light);
+    }
+
+    .free-period-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: #ecfdf5;
+      color: #047857;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px dashed rgba(5, 150, 105, 0.35);
+    }
+
+    /* Section headers */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-header .title-area h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.4px;
+    }
+
+    .section-header .title-area p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+    }
+
+    .kpi-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(5, 150, 105, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .kpi-content h4 {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
+
+    .kpi-subtext {
+      font-size: 11px;
+      color: var(--text-light);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .kpi-icon-wrap {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .kpi-icon-wrap svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .kpi-icon-emerald {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .kpi-icon-teal {
+      background: var(--secondary-light);
+      color: var(--secondary);
+    }
+
+    .kpi-icon-amber {
+      background: #fffbeb;
+      color: var(--warning);
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(25, 42, 32, 0.45);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--surface-border);
+      width: 100%;
+      max-width: 560px;
+      overflow: hidden;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--surface-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafcfb;
+    }
+
+    .modal-header h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .modal-body {
+      padding: 22px;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .modal-footer {
+      padding: 16px 22px;
+      border-top: 1px solid var(--surface-border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      background: var(--bg-page);
+    }
+
+    /* Syllabus Cards */
+    .syllabus-card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .syllabus-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .progress-bar-wrap {
+      width: 100%;
+      height: 8px;
+      background: var(--surface-border);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 10px 0 16px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary-gradient);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .syllabus-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0;
+      padding: 12px;
+      background: var(--bg-page);
+      border-radius: var(--radius-sm);
+    }
+
+    .syllabus-meta-item {
+      font-size: 11.5px;
+    }
+
+    .syllabus-meta-item span {
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .syllabus-meta-item strong {
+      color: var(--text-main);
+      font-size: 13px;
+    }
+
+    /* =====================================================================
+       LOGIN PORTAL STYLES (Requirement 1: Separate Admin & Faculty Logins)
+       ===================================================================== */
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 16px;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(5, 150, 105, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.08) 0%, transparent 40%),
+        var(--bg-page);
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .brand-hero {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .brand-logo-icon {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 12px;
+      border-radius: var(--radius-md);
+      background: var(--primary-gradient);
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(5, 150, 105, 0.25);
+    }
+
+    .brand-hero h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: var(--text-main);
+    }
+
+    .brand-hero p {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    /* Login Role Toggle Tabs */
+    .login-role-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: #e8efe9;
+      padding: 5px;
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+    }
+
+    .role-tab-btn {
+      padding: 11px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .role-tab-btn.active {
+      background: var(--surface);
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .login-box {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-xl);
+      padding: 32px 30px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .login-box h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .login-box .role-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+      line-height: 1.4;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-sm);
+      padding: 0 14px;
+      font-size: 13.5px;
+      color: var(--text-main);
+      background: #fbfdfc;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .demo-credentials-card {
+      margin-top: 20px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--surface-subtle);
+      border: 1px solid var(--surface-border);
+      font-size: 11.5px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .demo-credentials-card strong {
+      color: var(--text-main);
+    }
+
+    .btn-demo-fill {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* =====================================================================
+       APP LAYOUT (SIDEBAR + MAIN CANVAS)
+       ===================================================================== */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 40;
+    }
+
+    .sidebar-header {
+      height: var(--topbar-height);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+
+    .sidebar-logo {
+      width: 36px;
+      height: 36px;
+      background: var(--primary-gradient);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .sidebar-brand-text h2 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .sidebar-brand-text span {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow-y: auto;
+    }
+
+    .sidebar-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--sidebar-text);
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .sidebar-nav-btn svg {
+      width: 18px;
+      height: 18px;
+      color: var(--text-light);
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .sidebar-nav-btn:hover {
+      background: var(--surface-subtle);
+      color: var(--text-main);
+    }
+
+    .sidebar-nav-btn:hover svg {
+      color: var(--primary);
+    }
+
+    .sidebar-nav-btn.active {
+      background: var(--sidebar-active-bg);
+      color: var(--sidebar-active-text);
+      box-shadow: inset 3px 0 0 var(--sidebar-active-border);
+    }
+
+    .sidebar-nav-btn.active svg {
+      color: var(--primary);
+    }
+
+    .nav-badge-pill {
+      margin-left: auto;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    /* Main canvas wrapper */
+    .main-wrapper {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* Topbar */
+    .topbar {
+      height: var(--topbar-height);
+      background: var(--surface);
+      border-bottom: 1px solid var(--surface-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar-title-block h2 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .breadcrumb {
+      font-size: 11px;
+      color: var(--text-light);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 12px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--surface-border);
+      border-radius: 999px;
+    }
+
+    .user-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--primary-gradient);
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .user-pill-info {
+      line-height: 1.2;
+    }
+
+    .user-pill-info .name {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .user-pill-info .role {
+      font-size: 10px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* Page Content Viewport */
+    .content-viewport {
+      padding: 30px 32px;
+      flex: 1;
+    }
+
+    /* Circular Workload Ring Widget (Requirement 14) */
+    .workload-widget-card {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      padding: 28px;
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--surface-border);
+      box-shadow: var(--shadow-sm);
+      flex-wrap: wrap;
+    }
+
+    .workload-ring-wrapper {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      flex-shrink: 0;
+    }
+
+    .workload-svg {
+      width: 140px;
+      height: 140px;
+      transform: rotate(-90deg);
+    }
+
+    .workload-circle-bg {
+      fill: none;
+      stroke: var(--surface-border);
+      stroke-width: 11;
+    }
+
+    .workload-circle-progress {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 11;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.8s ease;
+    }
+
+    .workload-center-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.15;
+    }
+
+    .workload-pct {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+
+    .workload-label {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.6px;
+      margin-top: 1px;
+    }
+
+    .workload-hours {
+      font-size: 10px;
+      color: var(--primary);
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    .workload-details-pane h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .workload-metrics-row {
+      display: flex;
+      gap: 28px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .workload-metric-box {
+      font-size: 12px;
+    }
+
+    .workload-metric-box span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .workload-metric-box strong {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    /* Filter pills */
+    .filter-pills-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .pill-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--surface-border);
+      background: var(--surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .pill-btn:hover {
+      background: var(--surface-subtle);
+      color: var(--text-main);
+    }
+
+    .pill-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    /* Peer-to-Peer Faculty Replacement Cards */
+    .replacement-box {
+      background: var(--surface);
+      border: 1.5px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .replacement-candidate-card {
+      background: #fafcfb;
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      transition: var(--transition);
+    }
+
+    .replacement-candidate-card:hover {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .candidate-checks {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+      font-size: 11px;
+      color: #047857;
+      font-weight: 700;
+      flex-wrap: wrap;
+    }
+
+    .incoming-request-card {
+      background: #fffdf5;
+      border: 1px solid #fef08a;
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    /* Toast shelf */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+      background: var(--text-main);
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideInUp 0.3s ease;
+    }
+
+    @keyframes slideInUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================================
+       1. LOGIN VIEW (Requirement 1: Separate Admin/HOD and Faculty Logins)
+       ===================================================================== -->
+  <div id="view-login" class="login-wrapper">
+    <div class="login-container">
+      <div class="brand-hero">
+        <div class="brand-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h1>EduNova</h1>
+        <p>Smart Faculty Timetable &amp; Syllabus Portal</p>
+      </div>
+
+      <!-- Role Selector Tabs -->
+      <div class="login-role-tabs">
+        <button id="tab-btn-admin" class="role-tab-btn active" onclick="switchLoginRole('admin')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 14c-4 0-7 2-7 5v1h14v-1c0-3-3-5-7-5z"/><circle cx="12" cy="7" r="4"/></svg>
+          Admin / HOD Login
+        </button>
+        <button id="tab-btn-faculty" class="role-tab-btn" onclick="switchLoginRole('faculty')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          Faculty Login
+        </button>
+      </div>
+
+      <!-- 1.1 ADMIN/HOD LOGIN FORM -->
+      <div id="form-box-admin" class="login-box">
+        <h3>Admin / HOD Sign In</h3>
+        <p class="role-desc">Admin and HOD share the unified system role to manage department timetables, rooms, and faculty rosters.</p>
+        <form onsubmit="handleAdminLogin(event)">
+          <div class="form-group">
+            <label>Admin ID / Email</label>
+            <input type="text" id="admin-id" class="form-input" value="ADM-101" required placeholder="e.g. ADM-101">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="admin-password" class="form-input" value="admin123" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; height: 44px;">
+            Sign In as Admin/HOD &rarr;
+          </button>
+        </form>
+
+        <div class="demo-credentials-card">
+          <div>
+            <strong>Demo Admin:</strong> <span>ADM-101 / admin123</span>
+          </div>
+          <button type="button" class="btn-demo-fill" onclick="fillAdminDemo()">Fill Demo</button>
+        </div>
+      </div>
+
+      <!-- 1.2 FACULTY LOGIN FORM -->
+      <div id="form-box-faculty" class="login-box hidden">
+        <h3>Faculty Sign In</h3>
+        <p class="role-desc">Log in to view your personalized daily timetable, teaching workload, syllabus plans, and manage replacement requests.</p>
+        <form onsubmit="handleFacultyLogin(event)">
+          <div class="form-group">
+            <label>Select Faculty Member</label>
+            <select id="faculty-select-profile" class="form-input" onchange="onFacultyProfileSelect(this.value)">
+              <option value="FAC-101">Prof. Sharma (AI &amp; DS)</option>
+              <option value="FAC-102">Prof. Patil (AI &amp; DS)</option>
+              <option value="FAC-103">Prof. Joshi (AI &amp; DS)</option>
+              <option value="FAC-104">Dr. Kulkarni (AI &amp; DS)</option>
+              <option value="FAC-105">Prof. Pawar (AI &amp; DS)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Faculty ID</label>
+            <input type="text" id="faculty-id" class="form-input" value="FAC-101" required placeholder="e.g. FAC-101">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="faculty-password" class="form-input" value="faculty123" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; height: 44px;">
+            Sign In as Faculty &rarr;
+          </button>
+        </form>
+
+        <div class="demo-credentials-card">
+          <div>
+            <strong>Demo Faculty:</strong> <span>FAC-101 / faculty123</span>
+          </div>
+          <button type="button" class="btn-demo-fill" onclick="fillFacultyDemo()">Fill Demo</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       2. ADMIN / HOD PORTAL
+       Sidebar: Dashboard, Timetable, Faculty, Rooms, Settings, Logout (Strictly 5 Modules)
+       ===================================================================== -->
+  <div id="view-admin" class="app-layout hidden">
+    <!-- ADMIN SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="sidebar-brand-text">
+          <h2>EduNova</h2>
+          <span>Admin/HOD Portal</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <!-- 1. Dashboard -->
+        <button class="sidebar-nav-btn active" data-page="admin-dashboard" onclick="switchAdminTab('admin-dashboard')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </button>
+
+        <!-- 2. Timetable -->
+        <button class="sidebar-nav-btn" data-page="admin-timetable" onclick="switchAdminTab('admin-timetable')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Timetable</span>
+        </button>
+
+        <!-- 3. Faculty Directory -->
+        <button class="sidebar-nav-btn" data-page="admin-faculty" onclick="switchAdminTab('admin-faculty')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Faculty</span>
+        </button>
+
+        <!-- 4. Rooms -->
+        <button class="sidebar-nav-btn" data-page="admin-rooms" onclick="switchAdminTab('admin-rooms')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Rooms</span>
+        </button>
+
+        <!-- 5. Settings -->
+        <button class="sidebar-nav-btn" data-page="admin-settings" onclick="switchAdminTab('admin-settings')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Settings</span>
+        </button>
+
+        <!-- 6. Logout -->
+        <button class="sidebar-nav-btn" onclick="performLogout()" style="margin-top: auto;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Logout</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- ADMIN MAIN WRAPPER -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title-block">
+            <h2 id="admin-topbar-title">Dashboard</h2>
+            <div class="breadcrumb">
+              <span>EduNova</span>
+              <span>&rsaquo;</span>
+              <span id="admin-breadcrumb-page">Overview</span>
+            </div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="user-pill">
+            <div class="user-avatar">AD</div>
+            <div class="user-pill-info">
+              <div class="name">Administrator / HOD</div>
+              <div class="role">Academic Operations</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-viewport">
+        <!-- 2.1 ADMIN/HOD DASHBOARD (Requirement 3: Automatic Current Day Timetable & KPIs) -->
+        <section id="page-admin-dashboard">
+          <div class="section-header">
+            <div class="title-area">
+              <h2>Department Management Overview</h2>
+              <p>Real-time view of today's academic schedule, instructional faculty, and room allocation</p>
+            </div>
+            <div>
+              <span class="badge badge-primary">Academic Term 2026-27</span>
+            </div>
+          </div>
+
+          <!-- Basic Dashboard KPIs (Requirement 3: Total Faculty, Total Rooms, Total Classes) -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-content">
+                <h4>Total Faculty</h4>
+                <div class="kpi-value" id="kpi-admin-faculty">5</div>
+                <div class="kpi-subtext">Active department professors</div>
+              </div>
+              <div class="kpi-icon-wrap kpi-icon-emerald">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-content">
+                <h4>Total Rooms</h4>
+                <div class="kpi-value" id="kpi-admin-rooms">6</div>
+                <div class="kpi-subtext">Classrooms &amp; Computing Labs</div>
+              </div>
+              <div class="kpi-icon-wrap kpi-icon-teal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-content">
+                <h4>Total Classes</h4>
+                <div class="kpi-value">12</div>
+                <div class="kpi-subtext">Across departmental divisions</div>
+              </div>
+              <div class="kpi-icon-wrap kpi-icon-amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Requirement 3: Automatically show complete timetable for current day -->
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Today's Timetable (Current Day Matrix)
+              </h3>
+              <span class="badge badge-primary">Monday Schedule</span>
+            </div>
+            <div class="ui-card-body" style="padding: 0;">
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>TIME</th>
+                      <th>SUBJECT</th>
+                      <th>CLASS / DIVISION</th>
+                      <th>FACULTY</th>
+                      <th>ROOM</th>
+                      <th>STATUS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-admin-today-timetable">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2.2 ADMIN/HOD TIMETABLE PAGE -->
+        <section id="page-admin-timetable" class="hidden">
+          <div class="section-header">
+            <div class="title-area">
+              <h2>Master Timetable</h2>
+              <p>Complete academic schedule matrix across teaching days and divisions</p>
+            </div>
+          </div>
+
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <div class="filter-pills-bar" style="margin-bottom: 0;">
+                <button class="pill-btn active" onclick="filterAdminTimetable('all', this)">All Divisions</button>
+                <button class="pill-btn" onclick="filterAdminTimetable('AD-1', this)">AD-1</button>
+                <button class="pill-btn" onclick="filterAdminTimetable('AD-2', this)">AD-2</button>
+                <button class="pill-btn" onclick="filterAdminTimetable('TY AI&DS', this)">TY AI&amp;DS</button>
+              </div>
+            </div>
+            <div class="ui-card-body" style="padding: 0;">
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>DAY</th>
+                      <th>TIME</th>
+                      <th>SUBJECT</th>
+                      <th>FACULTY</th>
+                      <th>CLASS / DIVISION</th>
+                      <th>ROOM</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-admin-full-timetable">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2.3 ADMIN/HOD FACULTY PAGE (Basic Directory Only: Name, Dept, Subjects, Classes taught) -->
+        <section id="page-admin-faculty" class="hidden">
+          <div class="section-header">
+            <div class="title-area">
+              <h2>Faculty Directory</h2>
+              <p>Basic faculty credentials, department, and teaching allocations</p>
+            </div>
+          </div>
+
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h3>Faculty Members</h3>
+              <span class="badge badge-primary">AI &amp; Data Science</span>
+            </div>
+            <div class="ui-card-body" style="padding: 0;">
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>FACULTY NAME</th>
+                      <th>DEPARTMENT</th>
+                      <th>SUBJECTS</th>
+                      <th>CLASSES / DIVISIONS TAUGHT</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-admin-all-faculty">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2.4 ADMIN/HOD ROOMS PAGE (Room No, Room Type, Assigned Classes, Availability) -->
+        <section id="page-admin-rooms" class="hidden">
+          <div class="section-header">
+            <div class="title-area">
+              <h2>Rooms &amp; Laboratories</h2>
+              <p>Room facilities, class allocations, and basic availability</p>
+            </div>
+          </div>
+
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h3>Classrooms &amp; Labs</h3>
+              <span class="badge badge-success">6 Available Facilities</span>
+            </div>
+            <div class="ui-card-body" style="padding: 0;">
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>ROOM NUMBER</th>
+                      <th>ROOM TYPE</th>
+                      <th>ASSIGNED CLASSES / LECTURES</th>
+                      <th>AVAILABILITY STATUS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-admin-all-rooms">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2.5 ADMIN/HOD SETTINGS PAGE -->
+        <section id="page-admin-settings" class="hidden">
+          <div class="section-header">
+            <div class="title-area">
+              <h2>System Settings</h2>
+              <p>Academic term and department parameters</p>
+            </div>
+          </div>
+
+          <div class="ui-card">
+            <div class="ui-card-body">
+              <div style="display:flex; flex-direction:column; gap:16px; max-width:540px;">
+                <div class="form-group">
+                  <label>Department Name</label>
+                  <input type="text" class="form-input" value="Artificial Intelligence &amp; Data Science" readonly style="background:var(--surface-subtle);">
+                </div>
+                <div class="form-group">
+                  <label>Academic Year / Term</label>
+                  <input type="text" class="form-input" value="2026-2027 • Odd Semester" readonly style="background:var(--surface-subtle);">
+                </div>
+                <div class="form-group">
+                  <label>Replacement Mode</label>
+                  <input type="text" class="form-input" value="Faculty Peer-to-Peer Request &amp; Accept Workflow" readonly style="background:var(--surface-subtle);">
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       3. FACULTY PORTAL
+       Sidebar: Dashboard, My Timetable, My Workload, Syllabus Planner, Replacement Requests, Notifications, Logout
+       ===================================================================== -->
+  <div id="view-faculty" class="app-layout hidden">
+    <!-- FACULTY SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo" style="background: linear-gradient(135deg, #0d9488 0%, #10b981 100%);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="sidebar-brand-text">
+          <h2>EduNova</h2>
+          <span>Faculty Portal</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <!-- 1. Dashboard -->
+        <button class="sidebar-nav-btn active" data-page="faculty-dashboard" onclick="switchFacultyTab('faculty-dashboard')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </button>
+
+        <!-- 2. My Timetable -->
+        <button class="sidebar-nav-btn" data-page="faculty-timetable" onclick="switchFacultyTab('faculty-timetable')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>My Timetable</span>
+        </button>
+
+        <!-- 3. My Workload -->
+        <button class="sidebar-nav-btn" data-page="faculty-workload" onclick="switchFacultyTab('faculty-workload')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span>My Workload</span>
+        </button>
+
+        <!-- 4. Syllabus Planner (NEW FEATURE) -->
+        <button class="sidebar-nav-btn" data-page="faculty-syllabus" onclick="switchFacultyTab('faculty-syllabus')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="16" y2="7"/><line x1="9" y1="11" x2="14" y2="11"/></svg>
+          <span>Syllabus Planner</span>
+        </button>
+
+        <!-- 5. Replacement Requests -->
+        <button class="sidebar-nav-btn" data-page="faculty-replacement" onclick="switchFacultyTab('faculty-replacement')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+          <span>Replacement Requests</span>
+          <span class="nav-badge-pill" id="badge-faculty-incoming-count" style="display:none;">1</span>
+        </button>
+
+        <!-- 6. Notifications -->
+        <button class="sidebar-nav-btn" data-page="faculty-notifications" onclick="switchFacultyTab('faculty-notifications')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span>Notifications</span>
+          <span class="nav-badge-pill" id="badge-faculty-notif-count">2</span>
+        </button>
+
+        <!-- 7. Logout -->
+        <button class="sidebar-nav-btn" onclick="performLogout()" style="margin-top: auto;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Logout</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- FACULTY MAIN WRAPPER -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title-block">
+            <h2 id="faculty-topbar-title">Dashboard</h2>
+            <div class="breadcrumb">
+              <span>Faculty Portal</span>
+              <span>&rsaquo;</span>
+              <span id="faculty-breadcrumb-page">My Schedule</span>
+            </div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="user-pill">
+            <div class="user-avatar" id="faculty-avatar-badge">PS</div>
+            <div class="user-pill-info">
+              <div class="name" id="faculty-display-name">Prof. Sharma</div>
+              <div class="role" id="faculty-display-id">ID: FAC-101</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-viewport">
+        <!-- 3.1 FACULTY: DASHBOARD (Requirement 7: Today's schedule, free periods, workload, notifications) -->
+        <section id="page-faculty-dashboard">
+          <div class="section-header">
+            <div class="title-area">
+              <h2 id="faculty-welcome-text">Welcome back, Prof. Sharma</h2>
+              <p>Personal schedule for today, free periods breakdown, and teaching workload</p>
+            </div>
+          </div>
+
+          <!-- Faculty Dashboard KPIs (Including Workload metric) -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-content">
+                <h4>Today's Lectures</h4>
+                <div class="kpi-value" id="kpi-faculty-today-count">2</div>
+                <div class="kpi-subtext">Monday Schedule</div>
+              </div>
+              <div class="kpi-icon-wrap kpi-icon-emerald">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-content">
+                <h4>Free Periods Today</h4>
+                <div class="kpi-value" id="kpi-faculty-free-count" style="color:var(--primary);">3</div>
+                <div class="kpi-subtext">Open slots</div>
+              </div>
+              <div class="kpi-icon-wrap kpi-icon-teal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-content">
+                <h4>Current Workload</h4>
+                <div class="kpi-value" id="kpi-faculty-weekly-hours">18 / 24 hrs</div>
+                <div class="kpi-subtext" style="color:var(--warning);" id="kpi-faculty-status-text">High (75%)</div>
+              </div>
+              <div class="kpi-icon-wrap kpi-icon-amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Today's Lectures & Free Periods (Requirement 7) -->
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                Today's Timetable &amp; Free Periods
+              </h3>
+              <span class="badge badge-primary">Personal Schedule (Monday)</span>
+            </div>
+            <div class="ui-card-body" style="padding: 0;">
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>LECTURE TIME</th>
+                      <th>SUBJECT</th>
+                      <th>CLASS / DIVISION</th>
+                      <th>ROOM</th>
+                      <th>SESSION TYPE</th>
+                      <th>STATUS / AVAILABILITY</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-faculty-today-classes">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications preview card on dashboard -->
+          <div class="ui-card" style="margin-bottom: 0;">
+            <div class="ui-card-header">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                Recent Notifications
+              </h3>
+              <button class="btn btn-secondary btn-sm" onclick="switchFacultyTab('faculty-notifications')">View All Notifications &rarr;</button>
+            </div>
+            <div class="ui-card-body" style="padding: 16px;">
+              <div id="faculty-notifications-list-quick" style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3.2 FACULTY: MY TIMETABLE (Personal Weekly Timetable Only) -->
+        <section id="page-faculty-timetable" class="hidden">
+          <div class="section-header">
+            <div class="title-area">
+              <h2>My Weekly Timetable</h2>
+              <p>Your complete personal schedule across the academic teaching week</p>
+            </div>
+          </div>
+
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <div class="filter-pills-bar" style="margin-bottom: 0;">
+                <button class="pill-btn active" onclick="filterFacultyDay('all', this)">All Days</button>
+                <button class="pill-btn" onclick="filterFacultyDay('Monday', this)">Monday</button>
+                <button class="pill-btn" onclick="filterFacultyDay('Tuesday', this)">Tuesday</button>
+                <button class="pill-btn" onclick="filterFacultyDay('Wednesday', this)">Wednesday</button>
+                <button class="pill-btn" onclick="filterFacultyDay('Thursday', this)">Thursday</button>
+                <button class="pill-btn" onclick="filterFacultyDay('Friday', this)">Friday</button>
+              </div>
+            </div>
+            <div class="ui-card-body" style="padding: 0;">
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>DAY</th>
+                      <th>TIME</th>
+                      <th>SUBJECT</th>
+                      <th>CLASS / DIVISION</th>
+                      <th>ROOM</th>
+                      <th>TYPE</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-faculty-personal-timetable">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3.3 FACULTY: MY WORKLOAD (Requirement 14: Circular/Ring Workload Indicator) -->
+        <section id="page-faculty-workload" class="hidden">
+          <div class="section-header">
+            <div class="title-area">
+              <h2>My Teaching Workload</h2>
+              <p>Weekly instructional load, total lectures, and capacity gauge</p>
+            </div>
+          </div>
+
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                Personal Workload Indicator
+              </h3>
+              <span class="badge badge-primary">Department Cap: 24 hrs/week</span>
+            </div>
+            <div class="ui-card-body" id="faculty-full-workload-container">
+              <!-- Injected via JS with Circular Ring Indicator matching prompt example -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 3.4 FACULTY: SYLLABUS PLANNER (NEW FEATURE) -->
+        <section id="page-faculty-syllabus" class="hidden">
+          <div class="section-header">
+            <div class="title-area">
+              <h2>Syllabus &amp; Lecture Planner</h2>
+              <p>Isolated syllabus tracking, unit progression, and lecture planning for your assigned classes</p>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <span class="badge badge-primary" id="badge-faculty-syllabus-assigned-count">3 Assigned Classes</span>
+            </div>
+          </div>
+
+          <!-- Section 1: Assigned Classes Syllabus Progress Cards -->
+          <div class="ui-card" style="margin-bottom: 24px;">
+            <div class="ui-card-header">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                Assigned Classes Syllabus Status
+              </h3>
+              <span class="badge badge-secondary">Independent Division Plans</span>
+            </div>
+            <div class="ui-card-body" style="padding: 20px;">
+              <div id="faculty-syllabus-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 18px;">
+                <!-- Populated dynamically via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Interactive Lecture Plan -->
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Lecture Plan &amp; Topic Scheduler
+              </h3>
+              <span class="badge badge-primary" id="badge-selected-plan-name">DBMS – AD-1</span>
+            </div>
+            <div class="ui-card-body" style="padding: 22px;">
+              
+              <!-- Selection Bar: Strictly filters to assigned classes -->
+              <div style="background: var(--bg-page); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end;">
+                <div style="flex: 1; min-width: 220px;">
+                  <label style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:6px;">Select Class / Division</label>
+                  <select id="select-syllabus-class" class="form-input" onchange="onSyllabusClassSelected(this.value)" style="font-weight:700; color:var(--text-main);">
+                    <!-- Populated with ONLY assigned classes for logged-in faculty -->
+                  </select>
+                </div>
+                <div style="flex: 1; min-width: 220px;">
+                  <label style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:6px;">Subject (Assigned)</label>
+                  <input type="text" id="display-syllabus-subject" class="form-input" readonly style="font-weight:700; color:var(--primary); background:var(--surface-subtle);">
+                </div>
+              </div>
+
+              <!-- Add Upcoming Topic / Lecture Plan Form -->
+              <div style="background: var(--surface); border: 1.5px dashed rgba(5,150,105,0.3); border-radius: var(--radius-md); padding: 20px; margin-bottom: 24px;">
+                <h4 style="font-size:14px; font-weight:800; color:var(--text-main); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                  <span style="display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; background:var(--primary-light); color:var(--primary); font-size:12px;">+</span>
+                  Add Lecture Plan
+                </h4>
+                <form id="form-add-lecture-plan" onsubmit="handleAddNewLecturePlan(event)" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:14px; align-items:flex-end;">
+                  <div>
+                    <label style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:5px;">Upcoming Topic *</label>
+                    <input type="text" id="input-lecture-topic" class="form-input" placeholder="e.g. B-Tree Indexing Structure" required style="height:40px;">
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:5px;">Subtopics</label>
+                    <input type="text" id="input-lecture-subtopics" class="form-input" placeholder="e.g. Insertion &amp; Node splitting" style="height:40px;">
+                  </div>
+                  <div>
+                    <label style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:5px;">Lecture Status</label>
+                    <select id="input-lecture-status" class="form-input" style="height:40px; font-weight:700;">
+                      <option value="Planned">Planned</option>
+                      <option value="Completed">Completed</option>
+                    </select>
+                  </div>
+                  <div>
+                    <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; height:40px;">
+                      + Add to Plan
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Lectures Timeline / Table for Selected Class -->
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                  <h4 style="font-size:14px; font-weight:800; color:var(--text-main);">
+                    Scheduled &amp; Completed Lectures
+                  </h4>
+                  <span style="font-size:12px; color:var(--text-muted);" id="lecture-plan-summary-text">
+                    Showing lectures for selected class
+                  </span>
+                </div>
+                <div class="table-container" style="border: 1px solid var(--surface-border); border-radius: 8px;">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>LEC #</th>
+                        <th>TOPIC</th>
+                        <th>SUBTOPICS</th>
+                        <th>SLOT / DATE</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody id="table-lecture-plan-body">
+                      <!-- Populated via JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- 3.5 FACULTY: REPLACEMENT REQUESTS (Requirement 10, 11, 12, 13) -->
+        <section id="page-faculty-replacement" class="hidden">
+          <div class="section-header">
+            <div class="title-area">
+              <h2>Replacement Requests</h2>
+              <p>Request an eligible colleague to take a lecture, or accept/reject incoming colleague requests</p>
+            </div>
+          </div>
+
+          <!-- Section A: Incoming Requests (e.g. for Prof. Patil/Joshi receiving request from Prof. Sharma) -->
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Incoming Replacement Requests
+              </h3>
+              <span class="badge badge-warning" id="incoming-badge-count">Awaiting Your Action</span>
+            </div>
+            <div class="ui-card-body" id="incoming-requests-container">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+
+          <!-- Section B: Request a Colleague to Take a Lecture (Requirement 11) -->
+          <div class="ui-card">
+            <div class="ui-card-header">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+                Request a Replacement for Your Lecture
+              </h3>
+              <span class="badge badge-primary">Smart Eligible Faculty Suggestions</span>
+            </div>
+            <div class="ui-card-body" id="request-replacement-builder-container">
+              <!-- Injected via JS with the exact prompt example -->
+            </div>
+          </div>
+
+          <!-- Section C: Sent Requests Status (Requirement 12 & 13) -->
+          <div class="ui-card" style="margin-bottom: 0;">
+            <div class="ui-card-header">
+              <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                My Sent Replacement Requests
+              </h3>
+              <span class="badge badge-secondary">Track Status</span>
+            </div>
+            <div class="ui-card-body" style="padding: 0;">
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>LECTURE DETAILS</th>
+                      <th>SENT TO</th>
+                      <th>DATE / TIME</th>
+                      <th>CURRENT STATUS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-sent-requests">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3.6 FACULTY: NOTIFICATIONS -->
+        <section id="page-faculty-notifications" class="hidden">
+          <div class="section-header">
+            <div class="title-area">
+              <h2>Notifications &amp; Schedule Alerts</h2>
+              <p>Timetable updates, conflict notices, and replacement request responses</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="markAllNotificationsRead()">Mark All Read</button>
+          </div>
+
+          <div class="ui-card">
+            <div class="ui-card-body">
+              <div id="faculty-notifications-feed" style="display: flex; flex-direction: column; gap: 14px;">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Quick Syllabus Metrics Update Modal -->
+  <div id="modal-update-syllabus" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-syllabus-title">Update Syllabus Progress</h3>
+        <button class="btn btn-secondary btn-sm" onclick="closeSyllabusModal()">&times;</button>
+      </div>
+      <form id="form-update-syllabus" onsubmit="saveSyllabusMetrics(event)">
+        <div class="modal-body">
+          <input type="hidden" id="edit-plan-id">
+          
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:14px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label>Completed Units</label>
+              <input type="number" id="edit-completed-units" class="form-input" min="0" max="10" required>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label>Total Units</label>
+              <input type="number" id="edit-total-units" class="form-input" min="1" max="10" required>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:14px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label>Completed Topics</label>
+              <input type="number" id="edit-completed-topics" class="form-input" min="0" required>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label>Remaining Topics</label>
+              <input type="number" id="edit-remaining-topics" class="form-input" min="0" required>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:14px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label>Completed Lectures</label>
+              <input type="number" id="edit-completed-lectures" class="form-input" min="0" required>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label>Planned Lectures</label>
+              <input type="number" id="edit-planned-lectures" class="form-input" min="1" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Upcoming Topic</label>
+            <input type="text" id="edit-upcoming-topic" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <label>Expected Completion Date</label>
+            <input type="date" id="edit-completion-date" class="form-input" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeSyllabusModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Progress</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Shelf -->
+  <div id="toast-shelf" class="toast-container"></div>
+
+  <!-- =====================================================================
+       JAVASCRIPT APPLICATION LOGIC
+       ===================================================================== -->
+  <script>
+    /* ---------------------------------------------------------
+       Institutional Dataset
+       --------------------------------------------------------- */
+    const STATE = {
+      currentUserRole: null, // 'admin' | 'faculty'
+      currentFacultyId: 'FAC-101', // Default to Prof. Sharma
+      selectedSyllabusPlanId: 'PLAN-SHARMA-DBMS-AD1',
+
+      facultyDirectory: [
+        { id: 'FAC-101', name: 'Prof. Sharma', dept: 'AI & DS', subjects: 'DBMS, Machine Learning', courses: 'AD-1, AD-2, TY AI&DS', hours: 18, lectures: 18, maxHours: 24 },
+        { id: 'FAC-102', name: 'Prof. Patil', dept: 'AI & DS', subjects: 'DBMS, Database Lab', courses: 'AD-1, SY Lab', hours: 12, lectures: 12, maxHours: 24 },
+        { id: 'FAC-103', name: 'Prof. Joshi', dept: 'AI & DS', subjects: 'Python, DBMS, DSA', courses: 'AD-1, FY AI&DS', hours: 8, lectures: 8, maxHours: 24 },
+        { id: 'FAC-104', name: 'Dr. Kulkarni', dept: 'AI & DS', subjects: 'Data Structures', courses: 'AD-1, SY Lab', hours: 16, lectures: 16, maxHours: 24 },
+        { id: 'FAC-105', name: 'Prof. Pawar', dept: 'AI & DS', subjects: 'Computer Networks', courses: 'AD-2, TY AI&DS', hours: 14, lectures: 14, maxHours: 24 }
+      ],
+
+      roomsDirectory: [
+        { id: 'R-204', name: 'Room 204', type: 'Classroom', classes: 'AD-1 (DBMS, Python)', availability: 'Available' },
+        { id: 'R-101', name: 'Room 101', type: 'Classroom', classes: 'TY AI&DS (ML)', availability: 'Occupied' },
+        { id: 'R-102', name: 'Room 102', type: 'Classroom', classes: 'AD-2 (CN)', availability: 'Occupied' },
+        { id: 'R-103', name: 'Room 103', type: 'Classroom', classes: 'Unallocated', availability: 'Available' },
+        { id: 'L-201', name: 'Lab 201', type: 'Computing Lab', classes: 'TY AI Lab Practical', availability: 'Occupied' },
+        { id: 'L-202', name: 'Lab 202', type: 'Data Science Lab', classes: 'AD-1 Database Lab', availability: 'Occupied' }
+      ],
+
+      masterTimetable: [
+        // Monday 10:00 - 11:00: Prof. Sharma is scheduled for DBMS (AD-1) in Room 204
+        { id: 1, day: 'Monday', time: '10:00 - 11:00', subject: 'DBMS', facultyId: 'FAC-101', facultyName: 'Prof. Sharma', division: 'AD-1', room: 'Room 204', status: 'Scheduled' },
+        
+        // Monday 10:00 - 11:00 Overlap conflict: Prof. Sharma is also scheduled for AI Foundations in Room 101!
+        { id: 2, day: 'Monday', time: '10:00 - 11:00', subject: 'AI Foundations', facultyId: 'FAC-101', facultyName: 'Prof. Sharma', division: 'AD-2', room: 'Room 101', status: 'In Session' },
+        
+        // Other Monday lectures:
+        { id: 3, day: 'Monday', time: '09:00 - 10:00', subject: 'Machine Learning', facultyId: 'FAC-101', facultyName: 'Prof. Sharma', division: 'TY AI&DS', room: 'Room 101', status: 'In Session' },
+        { id: 4, day: 'Monday', time: '10:00 - 11:00', subject: 'Data Structures', facultyId: 'FAC-104', facultyName: 'Dr. Kulkarni', division: 'AD-1', room: 'Lab 201', status: 'Scheduled' },
+        { id: 5, day: 'Monday', time: '11:15 - 12:15', subject: 'Database Lab', facultyId: 'FAC-102', facultyName: 'Prof. Patil', division: 'AD-1', room: 'Lab 202', status: 'Upcoming' },
+        { id: 6, day: 'Monday', time: '12:15 - 01:15', subject: 'Python Programming', facultyId: 'FAC-103', facultyName: 'Prof. Joshi', division: 'FY AI&DS', room: 'Room 204', status: 'Scheduled' },
+
+        // Tuesday:
+        { id: 7, day: 'Tuesday', time: '09:00 - 10:00', subject: 'DBMS', facultyId: 'FAC-102', facultyName: 'Prof. Patil', division: 'AD-1', room: 'Room 204', status: 'Scheduled' },
+        { id: 8, day: 'Tuesday', time: '10:00 - 11:00', subject: 'Machine Learning', facultyId: 'FAC-101', facultyName: 'Prof. Sharma', division: 'TY AI&DS', room: 'Room 101', status: 'Scheduled' },
+        { id: 9, day: 'Tuesday', time: '11:15 - 12:15', subject: 'Computer Networks', facultyId: 'FAC-105', facultyName: 'Prof. Pawar', division: 'AD-2', room: 'Room 102', status: 'Scheduled' },
+
+        // Wednesday:
+        { id: 10, day: 'Wednesday', time: '09:00 - 10:00', subject: 'Python for AI', facultyId: 'FAC-103', facultyName: 'Prof. Joshi', division: 'AD-1', room: 'Room 204', status: 'Scheduled' },
+        { id: 11, day: 'Wednesday', time: '10:00 - 11:00', subject: 'Machine Learning', facultyId: 'FAC-101', facultyName: 'Prof. Sharma', division: 'TY AI&DS', room: 'Room 101', status: 'Scheduled' },
+
+        // Thursday:
+        { id: 12, day: 'Thursday', time: '09:00 - 10:00', subject: 'Advanced SQL', facultyId: 'FAC-102', facultyName: 'Prof. Patil', division: 'AD-1', room: 'Room 204', status: 'Scheduled' }
+      ],
+
+      standardDailySlots: [
+        { time: '09:00 - 10:00', label: 'Morning Slot 1' },
+        { time: '10:00 - 11:00', label: 'Morning Slot 2' },
+        { time: '11:00 - 11:15', label: 'Department Recess', isBreak: true },
+        { time: '11:15 - 12:15', label: 'Mid-Day Slot 3' },
+        { time: '12:15 - 01:15', label: 'Afternoon Slot 4' },
+        { time: '01:15 - 02:00', label: 'Lunch Break', isBreak: true }
+      ],
+
+      // SYLLABUS PLANNER DATASET (Each class/division has a completely isolated plan)
+      syllabusPlans: [
+        // Prof. Sharma's plans (FAC-101)
+        {
+          planId: 'PLAN-SHARMA-DBMS-AD1',
+          facultyId: 'FAC-101',
+          facultyName: 'Prof. Sharma',
+          subject: 'DBMS',
+          division: 'AD-1',
+          totalUnits: 6,
+          completedUnits: 4,
+          completedTopics: 28,
+          remainingTopics: 12,
+          plannedLectures: 40,
+          completedLectures: 28,
+          upcomingTopic: 'B-Tree Indexing & Query Optimization',
+          expectedCompletionDate: '2026-11-20',
+          lectures: [
+            { id: 1, lectureNum: 25, topic: 'Relational Algebra', subtopics: 'Selection, Projection, Cartesian Product', dateSlot: 'Completed Oct 02', status: 'Completed' },
+            { id: 2, lectureNum: 26, topic: 'SQL Joins & Subqueries', subtopics: 'Inner, Outer Joins, Nested Subqueries', dateSlot: 'Completed Oct 05', status: 'Completed' },
+            { id: 3, lectureNum: 27, topic: 'Normal Forms (1NF, 2NF, 3NF)', subtopics: 'Functional Dependencies, Decomposition', dateSlot: 'Completed Oct 07', status: 'Completed' },
+            { id: 4, lectureNum: 28, topic: 'Boyce-Codd Normal Form (BCNF)', subtopics: 'Lossless join, Dependency preservation', dateSlot: 'Completed Oct 09', status: 'Completed' },
+            { id: 5, lectureNum: 29, topic: 'B-Tree Indexing Structure', subtopics: 'Search algorithm, Insertion & Node splitting', dateSlot: 'Upcoming • Oct 12', status: 'Planned' },
+            { id: 6, lectureNum: 30, topic: 'Query Optimization & Cost Estimation', subtopics: 'Heuristic optimization, Catalog info', dateSlot: 'Upcoming • Oct 14', status: 'Planned' },
+            { id: 7, lectureNum: 31, topic: 'Transaction ACID Properties', subtopics: 'Atomicity, Consistency, Isolation, Durability', dateSlot: 'Upcoming • Oct 16', status: 'Planned' }
+          ]
+        },
+        {
+          planId: 'PLAN-SHARMA-DBMS-AD2',
+          facultyId: 'FAC-101',
+          facultyName: 'Prof. Sharma',
+          subject: 'DBMS',
+          division: 'AD-2',
+          totalUnits: 6,
+          completedUnits: 3,
+          completedTopics: 18,
+          remainingTopics: 22,
+          plannedLectures: 40,
+          completedLectures: 18,
+          upcomingTopic: 'Functional Dependencies & Normalization',
+          expectedCompletionDate: '2026-12-05',
+          lectures: [
+            { id: 101, lectureNum: 16, topic: 'Entity-Relationship Modeling', subtopics: 'Entities, Attributes, Cardinality constraints', dateSlot: 'Completed Sep 28', status: 'Completed' },
+            { id: 102, lectureNum: 17, topic: 'Relational Schema Mapping', subtopics: 'Mapping strong/weak entity sets', dateSlot: 'Completed Oct 03', status: 'Completed' },
+            { id: 103, lectureNum: 18, topic: 'Basic SQL DDL & DML Commands', subtopics: 'CREATE, ALTER, INSERT, SELECT queries', dateSlot: 'Completed Oct 08', status: 'Completed' },
+            { id: 104, lectureNum: 19, topic: 'Functional Dependencies & Normalization', subtopics: 'Inference rules, Closure of attributes', dateSlot: 'Upcoming • Oct 12', status: 'Planned' },
+            { id: 105, lectureNum: 20, topic: 'First & Second Normal Forms', subtopics: 'Prime attributes, Partial dependency removal', dateSlot: 'Upcoming • Oct 15', status: 'Planned' }
+          ]
+        },
+        {
+          planId: 'PLAN-SHARMA-ML-TY',
+          facultyId: 'FAC-101',
+          facultyName: 'Prof. Sharma',
+          subject: 'Machine Learning',
+          division: 'TY AI&DS',
+          totalUnits: 6,
+          completedUnits: 4,
+          completedTopics: 24,
+          remainingTopics: 12,
+          plannedLectures: 36,
+          completedLectures: 24,
+          upcomingTopic: 'Support Vector Machines & Kernel Trick',
+          expectedCompletionDate: '2026-11-30',
+          lectures: [
+            { id: 201, lectureNum: 23, topic: 'Logistic Regression & Sigmoid Function', subtopics: 'Cost function, Gradient descent updates', dateSlot: 'Completed Oct 04', status: 'Completed' },
+            { id: 202, lectureNum: 24, topic: 'Decision Trees & Information Gain', subtopics: 'Entropy, Gini impurity, Tree pruning', dateSlot: 'Completed Oct 07', status: 'Completed' },
+            { id: 203, lectureNum: 25, topic: 'Support Vector Machines & Kernel Trick', subtopics: 'Max-margin hyperplane, RBF Kernel', dateSlot: 'Upcoming • Oct 12', status: 'Planned' },
+            { id: 204, lectureNum: 26, topic: 'Ensemble Learning: Random Forests', subtopics: 'Bagging, Bootstrap sampling, Feature subset', dateSlot: 'Upcoming • Oct 16', status: 'Planned' }
+          ]
+        },
+
+        // Prof. Patil's plans (FAC-102)
+        {
+          planId: 'PLAN-PATIL-DBLAB-AD1',
+          facultyId: 'FAC-102',
+          facultyName: 'Prof. Patil',
+          subject: 'Database Lab',
+          division: 'AD-1',
+          totalUnits: 5,
+          completedUnits: 4,
+          completedTopics: 16,
+          remainingTopics: 4,
+          plannedLectures: 20,
+          completedLectures: 16,
+          upcomingTopic: 'PL/SQL Triggers & Cursors Implementation',
+          expectedCompletionDate: '2026-11-15',
+          lectures: [
+            { id: 301, lectureNum: 15, topic: 'Complex Nested Queries in MySQL', subtopics: 'Correlated subqueries, EXISTS operator', dateSlot: 'Completed Oct 04', status: 'Completed' },
+            { id: 302, lectureNum: 16, topic: 'Stored Procedures & Parameter Passing', subtopics: 'IN, OUT, INOUT parameters in MySQL', dateSlot: 'Completed Oct 07', status: 'Completed' },
+            { id: 303, lectureNum: 17, topic: 'PL/SQL Triggers & Cursors Implementation', subtopics: 'Row-level vs Statement-level triggers', dateSlot: 'Upcoming • Oct 14', status: 'Planned' }
+          ]
+        },
+
+        // Prof. Joshi's plans (FAC-103)
+        {
+          planId: 'PLAN-JOSHI-PYTHON-FY',
+          facultyId: 'FAC-103',
+          facultyName: 'Prof. Joshi',
+          subject: 'Python Programming',
+          division: 'FY AI&DS',
+          totalUnits: 6,
+          completedUnits: 3,
+          completedTopics: 15,
+          remainingTopics: 15,
+          plannedLectures: 30,
+          completedLectures: 15,
+          upcomingTopic: 'Object-Oriented Programming: Classes & Objects',
+          expectedCompletionDate: '2026-11-28',
+          lectures: [
+            { id: 401, lectureNum: 14, topic: 'Python Dictionaries & Set Operations', subtopics: 'Dict comprehensions, Set union & intersection', dateSlot: 'Completed Oct 03', status: 'Completed' },
+            { id: 402, lectureNum: 15, topic: 'Functions, Lambdas & Map/Filter', subtopics: 'Higher order functions, Recursion in Python', dateSlot: 'Completed Oct 06', status: 'Completed' },
+            { id: 403, lectureNum: 16, topic: 'Object-Oriented Programming: Classes & Objects', subtopics: 'Constructor __init__, Instance methods', dateSlot: 'Upcoming • Oct 12', status: 'Planned' }
+          ]
+        },
+        {
+          planId: 'PLAN-JOSHI-PYAI-AD1',
+          facultyId: 'FAC-103',
+          facultyName: 'Prof. Joshi',
+          subject: 'Python for AI',
+          division: 'AD-1',
+          totalUnits: 6,
+          completedUnits: 4,
+          completedTopics: 22,
+          remainingTopics: 10,
+          plannedLectures: 32,
+          completedLectures: 22,
+          upcomingTopic: 'NumPy Array Manipulation & Broadcasting',
+          expectedCompletionDate: '2026-11-18',
+          lectures: [
+            { id: 501, lectureNum: 21, topic: 'File Handling & CSV Processing', subtopics: 'Reading/writing structured CSV logs', dateSlot: 'Completed Oct 05', status: 'Completed' },
+            { id: 502, lectureNum: 22, topic: 'Regular Expressions for Text Cleanup', subtopics: 'Tokenization, Regex pattern matching', dateSlot: 'Completed Oct 08', status: 'Completed' },
+            { id: 503, lectureNum: 23, topic: 'NumPy Array Manipulation & Broadcasting', subtopics: 'Multidimensional slices, Vectorization rules', dateSlot: 'Upcoming • Oct 13', status: 'Planned' }
+          ]
+        },
+
+        // Dr. Kulkarni's plans (FAC-104)
+        {
+          planId: 'PLAN-KULKARNI-DSA-AD1',
+          facultyId: 'FAC-104',
+          facultyName: 'Dr. Kulkarni',
+          subject: 'Data Structures',
+          division: 'AD-1',
+          totalUnits: 6,
+          completedUnits: 4,
+          completedTopics: 26,
+          remainingTopics: 10,
+          plannedLectures: 36,
+          completedLectures: 26,
+          upcomingTopic: 'Graph Traversals: BFS, DFS & Topological Sort',
+          expectedCompletionDate: '2026-11-22',
+          lectures: [
+            { id: 601, lectureNum: 25, topic: 'Binary Search Trees & AVL Balancing', subtopics: 'Tree rotations, Height balancing', dateSlot: 'Completed Oct 04', status: 'Completed' },
+            { id: 602, lectureNum: 26, topic: 'Heaps & Priority Queues', subtopics: 'Min-heap, Max-heap, Heapify algorithm', dateSlot: 'Completed Oct 08', status: 'Completed' },
+            { id: 603, lectureNum: 27, topic: 'Graph Traversals: BFS, DFS & Topological Sort', subtopics: 'Adjacency list, Cycle detection', dateSlot: 'Upcoming • Oct 13', status: 'Planned' }
+          ]
+        },
+
+        // Prof. Pawar's plans (FAC-105)
+        {
+          planId: 'PLAN-PAWAR-CN-AD2',
+          facultyId: 'FAC-105',
+          facultyName: 'Prof. Pawar',
+          subject: 'Computer Networks',
+          division: 'AD-2',
+          totalUnits: 5,
+          completedUnits: 3,
+          completedTopics: 21,
+          remainingTopics: 14,
+          plannedLectures: 35,
+          completedLectures: 21,
+          upcomingTopic: 'TCP Congestion Control & Windowing',
+          expectedCompletionDate: '2026-12-02',
+          lectures: [
+            { id: 701, lectureNum: 20, topic: 'IPv4 Addressing & Subnetting', subtopics: 'CIDR, Subnet masks, Classless routing', dateSlot: 'Completed Oct 03', status: 'Completed' },
+            { id: 702, lectureNum: 21, topic: 'Routing Protocols: OSPF & BGP', subtopics: 'Link-state vs Distance-vector comparison', dateSlot: 'Completed Oct 07', status: 'Completed' },
+            { id: 703, lectureNum: 22, topic: 'TCP Congestion Control & Windowing', subtopics: 'Slow start, Congestion avoidance, Fast retransmit', dateSlot: 'Upcoming • Oct 14', status: 'Planned' }
+          ]
+        }
+      ],
+
+      // Peer-to-Peer Faculty Replacement Requests Storage
+      replacementRequests: [
+        {
+          id: 'REQ-101',
+          fromFacultyId: 'FAC-101',
+          fromFacultyName: 'Prof. Sharma',
+          toFacultyId: 'FAC-102',
+          toFacultyName: 'Prof. Patil',
+          subject: 'DBMS',
+          division: 'AD-1',
+          time: '10:00 – 11:00',
+          day: 'Monday',
+          room: 'Room 204',
+          status: 'Pending',
+          createdTime: 'Today, 09:15 AM'
+        }
+      ],
+
+      facultyNotifications: {
+        'FAC-101': [
+          { id: 'N-1', title: 'Internal Conflict Alert', text: 'You are concurrently scheduled for DBMS (AD-1) in Room 204 and AI Foundations (AD-2) in Room 101 at 10:00–11:00. Please request a replacement from eligible faculty.', time: '20 mins ago', unread: true },
+          { id: 'N-2', title: 'Replacement Request Sent', text: 'Your request for Prof. Patil to take DBMS (AD-1, 10:00–11:00) has been delivered.', time: '15 mins ago', unread: false }
+        ],
+        'FAC-102': [
+          { id: 'N-3', title: 'Replacement Request Received', text: 'Prof. Sharma has requested you to take DBMS (AD-1) today at 10:00–11:00 in Room 204.', time: '15 mins ago', unread: true }
+        ],
+        'FAC-103': [
+          { id: 'N-4', title: 'Schedule Reminder', text: 'Your Python lecture is scheduled at 12:15 PM in Room 204.', time: '1 hour ago', unread: false }
+        ],
+        'FAC-104': [
+          { id: 'N-5', title: 'Lab Ready', text: 'Lab 201 practical workstation verified for 10:00 AM.', time: '2 hours ago', unread: false }
+        ]
+      }
+    };
+
+    /* ---------------------------------------------------------
+       1. AUTHENTICATION & ROLE-BASED ACCESS
+       --------------------------------------------------------- */
+    function switchLoginRole(role) {
+      const btnAdmin = document.getElementById('tab-btn-admin');
+      const btnFaculty = document.getElementById('tab-btn-faculty');
+      const boxAdmin = document.getElementById('form-box-admin');
+      const boxFaculty = document.getElementById('form-box-faculty');
+
+      if (role === 'admin') {
+        btnAdmin.classList.add('active');
+        btnFaculty.classList.remove('active');
+        boxAdmin.classList.remove('hidden');
+        boxFaculty.classList.add('hidden');
+      } else {
+        btnFaculty.classList.add('active');
+        btnAdmin.classList.remove('active');
+        boxFaculty.classList.remove('hidden');
+        boxAdmin.classList.add('hidden');
+      }
+    }
+
+    function fillAdminDemo() {
+      document.getElementById('admin-id').value = 'ADM-101';
+      document.getElementById('admin-password').value = 'admin123';
+      showToast('Admin demo credentials filled.');
+    }
+
+    function onFacultyProfileSelect(facId) {
+      document.getElementById('faculty-id').value = facId;
+    }
+
+    function fillFacultyDemo() {
+      document.getElementById('faculty-select-profile').value = 'FAC-101';
+      document.getElementById('faculty-id').value = 'FAC-101';
+      document.getElementById('faculty-password').value = 'faculty123';
+      showToast('Faculty demo credentials filled for Prof. Sharma.');
+    }
+
+    function handleAdminLogin(e) {
+      if (e) e.preventDefault();
+      STATE.currentUserRole = 'admin';
+
+      document.getElementById('view-login').classList.add('hidden');
+      document.getElementById('view-faculty').classList.add('hidden');
+      document.getElementById('view-admin').classList.remove('hidden');
+
+      window.location.hash = '#admin';
+      switchAdminTab('admin-dashboard');
+      renderAdminAll();
+      showToast('Welcome, Administrator / HOD');
+    }
+
+    function handleFacultyLogin(e) {
+      if (e) e.preventDefault();
+      const facId = document.getElementById('faculty-id').value.trim() || 'FAC-101';
+      const facultyObj = STATE.facultyDirectory.find(f => f.id === facId);
+
+      if (!facultyObj) {
+        showToast('Faculty ID not recognized.');
+        return;
+      }
+
+      STATE.currentUserRole = 'faculty';
+      STATE.currentFacultyId = facId;
+
+      // Select default syllabus plan for this faculty
+      const defaultPlan = STATE.syllabusPlans.find(p => p.facultyId === facId);
+      if (defaultPlan) {
+        STATE.selectedSyllabusPlanId = defaultPlan.planId;
+      }
+
+      document.getElementById('view-login').classList.add('hidden');
+      document.getElementById('view-admin').classList.add('hidden');
+      document.getElementById('view-faculty').classList.remove('hidden');
+
+      window.location.hash = `#faculty&id=${facId}`;
+      switchFacultyTab('faculty-dashboard');
+      renderFacultyAll();
+      showToast(`Welcome back, ${facultyObj.name}`);
+    }
+
+    function performLogout() {
+      STATE.currentUserRole = null;
+      document.getElementById('view-admin').classList.add('hidden');
+      document.getElementById('view-faculty').classList.add('hidden');
+      document.getElementById('view-login').classList.remove('hidden');
+      window.location.hash = '#login';
+      showToast('Logged out successfully.');
+    }
+
+    /* ---------------------------------------------------------
+       2. ADMIN / HOD TAB SWITCHING & RENDERING (Strictly 5 Modules)
+       --------------------------------------------------------- */
+    function switchAdminTab(pageId) {
+      const pages = ['admin-dashboard', 'admin-timetable', 'admin-faculty', 'admin-rooms', 'admin-settings'];
+      
+      pages.forEach(p => {
+        const el = document.getElementById(`page-${p}`);
+        if (el) el.classList.add('hidden');
+      });
+
+      const activePage = document.getElementById(`page-${pageId}`);
+      if (activePage) activePage.classList.remove('hidden');
+
+      document.querySelectorAll('#view-admin .sidebar-nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-page') === pageId);
+      });
+
+      const titleMap = {
+        'admin-dashboard': 'Dashboard',
+        'admin-timetable': 'Master Timetable',
+        'admin-faculty': 'Faculty Directory',
+        'admin-rooms': 'Rooms & Facilities',
+        'admin-settings': 'Settings'
+      };
+      document.getElementById('admin-topbar-title').innerText = titleMap[pageId] || 'Dashboard';
+      document.getElementById('admin-breadcrumb-page').innerText = titleMap[pageId] || 'Overview';
+    }
+
+    function renderAdminAll() {
+      renderAdminDashboard();
+      renderAdminTimetableTable('all');
+      renderAdminFacultyTable();
+      renderAdminRoomsTable();
+    }
+
+    /* Requirement 3: Admin/HOD Dashboard automatically shows Today's Timetable */
+    function renderAdminDashboard() {
+      document.getElementById('kpi-admin-faculty').innerText = STATE.facultyDirectory.length;
+      document.getElementById('kpi-admin-rooms').innerText = STATE.roomsDirectory.length;
+
+      const tbody = document.getElementById('table-admin-today-timetable');
+      tbody.innerHTML = '';
+      const todayClasses = STATE.masterTimetable.filter(t => t.day === 'Monday');
+
+      todayClasses.forEach(item => {
+        const tr = document.createElement('tr');
+        const badgeClass = item.status === 'In Session' ? 'badge-primary' : 'badge-info';
+        tr.innerHTML = `
+          <td><strong>${item.time}</strong></td>
+          <td>
+            <div style="font-weight:700; color:var(--text-main);">${item.subject}</div>
+          </td>
+          <td><span class="badge badge-info">${item.division}</span></td>
+          <td><strong>${item.facultyName}</strong></td>
+          <td><strong>${item.room}</strong></td>
+          <td><span class="badge ${badgeClass}">${item.status}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* Requirement 4: Admin/HOD Timetable Grid */
+    function renderAdminTimetableTable(filter = 'all') {
+      const tbody = document.getElementById('table-admin-full-timetable');
+      tbody.innerHTML = '';
+
+      let list = STATE.masterTimetable;
+      if (filter !== 'all') {
+        list = list.filter(t => t.division.toLowerCase().includes(filter.toLowerCase()));
+      }
+
+      list.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${item.day}</strong></td>
+          <td><strong>${item.time}</strong></td>
+          <td><strong style="color:var(--text-main);">${item.subject}</strong></td>
+          <td>${item.facultyName}</td>
+          <td><span class="badge badge-info">${item.division}</span></td>
+          <td><strong>${item.room}</strong></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterAdminTimetable(division, btn) {
+      document.querySelectorAll('#page-admin-timetable .pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderAdminTimetableTable(division);
+    }
+
+    /* Requirement 5: Admin/HOD Faculty Directory */
+    function renderAdminFacultyTable() {
+      const tbody = document.getElementById('table-admin-all-faculty');
+      tbody.innerHTML = '';
+
+      STATE.facultyDirectory.forEach(fac => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong style="color:var(--text-main);">${fac.name}</strong></td>
+          <td>${fac.dept}</td>
+          <td>${fac.subjects}</td>
+          <td><span class="badge badge-secondary">${fac.courses}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* Requirement 6: Admin/HOD Rooms */
+    function renderAdminRoomsTable() {
+      const tbody = document.getElementById('table-admin-all-rooms');
+      tbody.innerHTML = '';
+
+      STATE.roomsDirectory.forEach(rm => {
+        const tr = document.createElement('tr');
+        const statusBadge = rm.availability === 'Occupied' ? 'badge-primary' : 'badge-success';
+        tr.innerHTML = `
+          <td><strong>${rm.name}</strong></td>
+          <td>${rm.type}</td>
+          <td>${rm.classes}</td>
+          <td><span class="badge ${statusBadge}">${rm.availability}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* ---------------------------------------------------------
+       3. FACULTY TAB SWITCHING & RENDERING
+       --------------------------------------------------------- */
+    function switchFacultyTab(pageId) {
+      const pages = ['faculty-dashboard', 'faculty-timetable', 'faculty-workload', 'faculty-syllabus', 'faculty-replacement', 'faculty-notifications'];
+      
+      pages.forEach(p => {
+        const el = document.getElementById(`page-${p}`);
+        if (el) el.classList.add('hidden');
+      });
+
+      const activePage = document.getElementById(`page-${pageId}`);
+      if (activePage) activePage.classList.remove('hidden');
+
+      document.querySelectorAll('#view-faculty .sidebar-nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-page') === pageId);
+      });
+
+      const titleMap = {
+        'faculty-dashboard': 'Dashboard',
+        'faculty-timetable': 'My Timetable',
+        'faculty-workload': 'My Workload',
+        'faculty-syllabus': 'Syllabus Planner',
+        'faculty-replacement': 'Replacement Requests',
+        'faculty-notifications': 'Notifications'
+      };
+      document.getElementById('faculty-topbar-title').innerText = titleMap[pageId] || 'Dashboard';
+      document.getElementById('faculty-breadcrumb-page').innerText = titleMap[pageId] || 'My Schedule';
+    }
+
+    function renderFacultyAll() {
+      const currentFaculty = STATE.facultyDirectory.find(f => f.id === STATE.currentFacultyId) || STATE.facultyDirectory[0];
+
+      document.getElementById('faculty-welcome-text').innerText = `Welcome back, ${currentFaculty.name}`;
+      document.getElementById('faculty-display-name').innerText = currentFaculty.name;
+      document.getElementById('faculty-display-id').innerText = `ID: ${currentFaculty.id}`;
+      document.getElementById('faculty-avatar-badge').innerText = currentFaculty.name.split(' ').map(n=>n[0]).join('').slice(0,2);
+
+      renderFacultyDashboard(currentFaculty);
+      renderFacultyPersonalTimetable(currentFaculty, 'all');
+      renderFacultyWorkloadPage(currentFaculty);
+      renderFacultySyllabusPage(currentFaculty);
+      renderFacultyReplacementPage(currentFaculty);
+      renderFacultyNotifications(currentFaculty);
+    }
+
+    /* Requirement 7 & 8: Faculty Dashboard (Today's lectures, free periods, workload, notifications) */
+    function renderFacultyDashboard(fac) {
+      const myClasses = STATE.masterTimetable.filter(t => t.facultyId === fac.id);
+      const myTodayClasses = myClasses.filter(t => t.day === 'Monday');
+
+      // Free periods count
+      const assignedTimes = new Set(myTodayClasses.map(c => c.time));
+      let freeSlotsCount = 0;
+      STATE.standardDailySlots.forEach(s => {
+        if (!s.isBreak && !assignedTimes.has(s.time)) freeSlotsCount++;
+      });
+
+      document.getElementById('kpi-faculty-today-count').innerText = myTodayClasses.length;
+      document.getElementById('kpi-faculty-free-count').innerText = freeSlotsCount;
+      document.getElementById('kpi-faculty-weekly-hours').innerText = `${fac.hours} / ${fac.maxHours} hrs`;
+      
+      const pct = Math.round((fac.hours / fac.maxHours) * 100);
+      const statusLabel = pct > 85 ? 'Overloaded' : (pct > 65 ? 'High' : 'Normal');
+      document.getElementById('kpi-faculty-status-text').innerText = `${statusLabel} (${pct}%)`;
+
+      // Today's classes & free periods table
+      const tbody = document.getElementById('table-faculty-today-classes');
+      tbody.innerHTML = '';
+
+      STATE.standardDailySlots.forEach(slot => {
+        if (slot.isBreak) {
+          const tr = document.createElement('tr');
+          tr.style.background = '#f8faf9';
+          tr.innerHTML = `
+            <td><strong style="color:var(--text-muted);">${slot.time}</strong></td>
+            <td colspan="5"><span style="color:var(--text-muted); font-size:12px; font-weight:600;">☕ ${slot.label}</span></td>
+          `;
+          tbody.appendChild(tr);
+          return;
+        }
+
+        const lecture = myTodayClasses.find(c => c.time === slot.time);
+
+        if (lecture) {
+          const tr = document.createElement('tr');
+          const badgeClass = lecture.status === 'In Session' ? 'badge-primary' : 'badge-info';
+          tr.innerHTML = `
+            <td><strong>${lecture.time}</strong></td>
+            <td><strong style="color:var(--text-main);">${lecture.subject}</strong></td>
+            <td><span class="badge badge-info">${lecture.division}</span></td>
+            <td><strong>${lecture.room}</strong></td>
+            <td>Lecture</td>
+            <td><span class="badge ${badgeClass}">${lecture.status}</span></td>
+          `;
+          tbody.appendChild(tr);
+        } else {
+          // Free period row
+          const tr = document.createElement('tr');
+          tr.className = 'free-period-row';
+          tr.innerHTML = `
+            <td><strong>${slot.time}</strong></td>
+            <td><span class="free-period-badge">Free Period</span></td>
+            <td><span style="color:var(--text-muted); font-size:12px;">No Class Scheduled</span></td>
+            <td><span style="color:var(--text-muted); font-size:12px;">—</span></td>
+            <td>—</td>
+            <td><span class="badge badge-success">Available ✓</span></td>
+          `;
+          tbody.appendChild(tr);
+        }
+      });
+
+      // Quick notifications preview
+      const notifs = STATE.facultyNotifications[fac.id] || [];
+      const quickContainer = document.getElementById('faculty-notifications-list-quick');
+      quickContainer.innerHTML = '';
+      if (notifs.length === 0) {
+        quickContainer.innerHTML = `<div style="font-size:12px; color:var(--text-muted);">No new alerts.</div>`;
+      } else {
+        notifs.slice(0, 3).forEach(n => {
+          const item = document.createElement('div');
+          item.style.padding = '10px 12px';
+          item.style.borderRadius = 'var(--radius-sm)';
+          item.style.background = n.unread ? 'var(--primary-light)' : 'var(--surface-subtle)';
+          item.style.border = `1px solid ${n.unread ? '#a7f3d0' : 'var(--surface-border)'}`;
+          item.innerHTML = `
+            <div style="display:flex; justify-content:space-between;">
+              <strong style="font-size:12px; color:var(--text-main);">${n.title}</strong>
+              <span style="font-size:10px; color:var(--text-muted);">${n.time}</span>
+            </div>
+            <p style="font-size:11.5px; color:var(--text-muted); margin-top:3px;">${n.text}</p>
+          `;
+          quickContainer.appendChild(item);
+        });
+      }
+    }
+
+    /* Faculty Personal Weekly Timetable */
+    function renderFacultyPersonalTimetable(fac, dayFilter = 'all') {
+      const tbody = document.getElementById('table-faculty-personal-timetable');
+      tbody.innerHTML = '';
+
+      let mySlots = STATE.masterTimetable.filter(t => t.facultyId === fac.id);
+      if (dayFilter !== 'all') {
+        mySlots = mySlots.filter(t => t.day.toLowerCase() === dayFilter.toLowerCase());
+      }
+
+      if (mySlots.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:24px; color:var(--text-muted);">No personal lectures scheduled for ${dayFilter}.</td></tr>`;
+        return;
+      }
+
+      mySlots.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${item.day}</strong></td>
+          <td><strong>${item.time}</strong></td>
+          <td><strong style="color:var(--text-main);">${item.subject}</strong></td>
+          <td><span class="badge badge-info">${item.division}</span></td>
+          <td><strong>${item.room}</strong></td>
+          <td>Lecture</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterFacultyDay(day, btn) {
+      document.querySelectorAll('#page-faculty-timetable .pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const currentFaculty = STATE.facultyDirectory.find(f => f.id === STATE.currentFacultyId);
+      renderFacultyPersonalTimetable(currentFaculty, day);
+    }
+
+    /* Requirement 14: My Workload page with circular ring indicator */
+    function renderFacultyWorkloadPage(fac) {
+      const container = document.getElementById('faculty-full-workload-container');
+      container.innerHTML = renderCircularWorkloadRing(fac.hours, fac.maxHours, fac.lectures, fac.name);
+    }
+
+    function renderCircularWorkloadRing(hours, maxHours, lectures, facultyName) {
+      const pct = Math.min(100, Math.round((hours / maxHours) * 100));
+      const status = pct > 85 ? 'Overloaded' : (pct > 65 ? 'High' : 'Normal');
+      const statusColor = status === 'Overloaded' ? '#e11d48' : (status === 'High' ? '#d97706' : '#059669');
+
+      const radius = 54;
+      const circumference = 2 * Math.PI * radius;
+      const strokeDashoffset = circumference - (pct / 100) * circumference;
+
+      return `
+        <div class="workload-widget-card">
+          <div class="workload-ring-wrapper">
+            <svg class="workload-svg" viewBox="0 0 140 140">
+              <circle class="workload-circle-bg" cx="70" cy="70" r="${radius}"></circle>
+              <circle class="workload-circle-progress" cx="70" cy="70" r="${radius}" 
+                style="stroke:${statusColor}; stroke-dasharray:${circumference}; stroke-dashoffset:${strokeDashoffset};"></circle>
+            </svg>
+            <div class="workload-center-text">
+              <span class="workload-pct">${pct}%</span>
+              <span class="workload-label">WORKLOAD</span>
+              <span class="workload-hours">${hours} / ${maxHours} hrs</span>
+            </div>
+          </div>
+
+          <div class="workload-details-pane">
+            <span class="badge" style="background:${statusColor}18; color:${statusColor}; border:1px solid ${statusColor}35; margin-bottom:6px;">
+              ${status} Capacity Status
+            </span>
+            <h3>${facultyName} Workload Profile</h3>
+            
+            <div class="workload-metrics-row">
+              <div class="workload-metric-box">
+                <span>Assigned Lectures</span>
+                <strong>${lectures} lectures / week</strong>
+              </div>
+              <div class="workload-metric-box">
+                <span>Teaching Hours</span>
+                <strong>${hours} / ${maxHours} hours</strong>
+              </div>
+              <div class="workload-metric-box">
+                <span>Workload Status</span>
+                <strong style="color:${statusColor};">${status}</strong>
+              </div>
+            </div>
+            
+            <p style="font-size:12px; color:var(--text-muted); max-width:500px; line-height:1.5;">
+              Instructional load is dynamically monitored against the departmental cap of 24 teaching hours per week.
+            </p>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ---------------------------------------------------------
+       4. SYLLABUS PLANNER FEATURE (NEW SPECIFICATION)
+       - Shows only subjects and classes/divisions assigned to logged-in faculty.
+       - Each class/division has a separate syllabus plan.
+       - Progress for one class does NOT affect another.
+       - Faculty can only update plans they teach.
+       --------------------------------------------------------- */
+    function renderFacultySyllabusPage(fac) {
+      // 1. Get ONLY the plans assigned to this logged-in faculty
+      const assignedPlans = STATE.syllabusPlans.filter(p => p.facultyId === fac.id);
+      
+      document.getElementById('badge-faculty-syllabus-assigned-count').innerText = `${assignedPlans.length} Assigned Classes`;
+
+      const grid = document.getElementById('faculty-syllabus-cards-grid');
+      grid.innerHTML = '';
+
+      if (assignedPlans.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:30px; color:var(--text-muted);">No syllabus plans assigned to your profile.</div>`;
+      } else {
+        assignedPlans.forEach(plan => {
+          const progressPct = plan.plannedLectures > 0 
+            ? Math.round((plan.completedLectures / plan.plannedLectures) * 100) 
+            : Math.round((plan.completedTopics / (plan.completedTopics + plan.remainingTopics)) * 100);
+
+          const card = document.createElement('div');
+          card.className = 'syllabus-card';
+          card.innerHTML = `
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                <div>
+                  <span class="badge badge-primary" style="font-size:12px; font-weight:800; padding:4px 10px;">${plan.subject}</span>
+                  <span class="badge badge-secondary" style="font-size:12px; font-weight:800; padding:4px 10px; margin-left:4px;">${plan.division}</span>
+                </div>
+                <span class="badge ${progressPct >= 70 ? 'badge-success' : 'badge-warning'}" style="font-size:12px; font-weight:800;">
+                  Progress: ${progressPct}%
+                </span>
+              </div>
+
+              <!-- Progress bar -->
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" style="width: ${progressPct}%;"></div>
+              </div>
+
+              <!-- 4-metric grid -->
+              <div class="syllabus-meta-grid">
+                <div class="syllabus-meta-item">
+                  <span>Units</span>
+                  <strong>${plan.completedUnits} / ${plan.totalUnits} Units</strong>
+                </div>
+                <div class="syllabus-meta-item">
+                  <span>Completed Topics</span>
+                  <strong style="color:var(--primary);">${plan.completedTopics} topics</strong>
+                </div>
+                <div class="syllabus-meta-item">
+                  <span>Remaining Topics</span>
+                  <strong>${plan.remainingTopics} topics</strong>
+                </div>
+                <div class="syllabus-meta-item">
+                  <span>Lectures Log</span>
+                  <strong>${plan.completedLectures} / ${plan.plannedLectures}</strong>
+                </div>
+              </div>
+
+              <!-- Upcoming Topic callout -->
+              <div style="background:var(--surface-subtle); border-left:3px solid var(--primary); padding:10px 14px; border-radius:6px; margin:14px 0;">
+                <div style="font-size:10.5px; font-weight:800; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Upcoming Topic</div>
+                <div style="font-weight:750; color:var(--text-main); font-size:13px; margin-top:2px;">${plan.upcomingTopic}</div>
+                <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+                  Expected Completion: <strong style="color:var(--text-main);">${plan.expectedCompletionDate}</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div style="display:flex; gap:8px; margin-top:12px; padding-top:12px; border-top:1px solid var(--surface-border);">
+              <button class="btn btn-secondary btn-sm" style="flex:1; justify-content:center;" onclick="selectLecturePlanClass('${plan.planId}')">
+                Manage Lecture Plan &rarr;
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="openSyllabusUpdateModal('${plan.planId}')" title="Edit Metrics">
+                Update Metrics
+              </button>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      // 2. Populate Class / Division selector for Lecture Plan (strictly assigned classes)
+      const selectClass = document.getElementById('select-syllabus-class');
+      selectClass.innerHTML = '';
+      
+      assignedPlans.forEach(plan => {
+        const opt = document.createElement('option');
+        opt.value = plan.planId;
+        opt.innerText = `${plan.division} • ${plan.subject}`;
+        selectClass.appendChild(opt);
+      });
+
+      // Ensure current selection is valid for this faculty
+      if (!assignedPlans.find(p => p.planId === STATE.selectedSyllabusPlanId)) {
+        if (assignedPlans.length > 0) {
+          STATE.selectedSyllabusPlanId = assignedPlans[0].planId;
+        } else {
+          STATE.selectedSyllabusPlanId = null;
+        }
+      }
+
+      if (STATE.selectedSyllabusPlanId) {
+        selectClass.value = STATE.selectedSyllabusPlanId;
+      }
+
+      renderSelectedLecturePlanTable();
+    }
+
+    function onSyllabusClassSelected(planId) {
+      STATE.selectedSyllabusPlanId = planId;
+      renderSelectedLecturePlanTable();
+    }
+
+    function selectLecturePlanClass(planId) {
+      STATE.selectedSyllabusPlanId = planId;
+      const selectClass = document.getElementById('select-syllabus-class');
+      if (selectClass) selectClass.value = planId;
+      renderSelectedLecturePlanTable();
+
+      // Scroll smoothly to the lecture plan section
+      document.getElementById('badge-selected-plan-name').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function renderSelectedLecturePlanTable() {
+      const plan = STATE.syllabusPlans.find(p => p.planId === STATE.selectedSyllabusPlanId);
+      const displaySubject = document.getElementById('display-syllabus-subject');
+      const badgePlanName = document.getElementById('badge-selected-plan-name');
+      const tbody = document.getElementById('table-lecture-plan-body');
+      const summaryText = document.getElementById('lecture-plan-summary-text');
+
+      if (!plan) {
+        displaySubject.value = '—';
+        badgePlanName.innerText = 'No Plan Selected';
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:24px; color:var(--text-muted);">Please select an assigned class above.</td></tr>`;
+        return;
+      }
+
+      displaySubject.value = `${plan.subject} (${plan.division})`;
+      badgePlanName.innerText = `${plan.subject} – ${plan.division}`;
+      summaryText.innerText = `Total ${plan.lectures.length} planned lectures for ${plan.division}`;
+
+      tbody.innerHTML = '';
+
+      if (plan.lectures.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:24px; color:var(--text-muted);">No lectures planned yet. Add one above!</td></tr>`;
+        return;
+      }
+
+      plan.lectures.forEach(lec => {
+        const tr = document.createElement('tr');
+        const isCompleted = lec.status === 'Completed';
+        const badgeClass = isCompleted ? 'badge-success' : 'badge-warning';
+
+        tr.innerHTML = `
+          <td><strong>#${lec.lectureNum}</strong></td>
+          <td><strong style="color:var(--text-main);">${lec.topic}</strong></td>
+          <td><span style="font-size:12px; color:var(--text-muted);">${lec.subtopics || '—'}</span></td>
+          <td><span style="font-size:12px;">${lec.dateSlot}</span></td>
+          <td><span class="badge ${badgeClass}">${lec.status}</span></td>
+          <td>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-sm ${isCompleted ? 'btn-secondary' : 'btn-success'}" onclick="toggleLecturePlanStatus('${plan.planId}', ${lec.id})">
+                ${isCompleted ? '↺ Mark Planned' : '✓ Mark Completed'}
+              </button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteLecturePlanItem('${plan.planId}', ${lec.id})" title="Delete">
+                &times;
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* Toggle Status between Planned and Completed (Recalculates syllabus metrics for THIS class only) */
+    function toggleLecturePlanStatus(planId, lectureId) {
+      const plan = STATE.syllabusPlans.find(p => p.planId === planId);
+      if (!plan || plan.facultyId !== STATE.currentFacultyId) {
+        showToast('Access Denied: You cannot modify syllabus plans of classes you are not assigned to.');
+        return;
+      }
+
+      const lec = plan.lectures.find(l => l.id === lectureId);
+      if (!lec) return;
+
+      if (lec.status === 'Completed') {
+        lec.status = 'Planned';
+        plan.completedLectures = Math.max(0, plan.completedLectures - 1);
+        plan.completedTopics = Math.max(0, plan.completedTopics - 1);
+        plan.remainingTopics += 1;
+        showToast(`Lecture #${lec.lectureNum} reverted to Planned for ${plan.division}`);
+      } else {
+        lec.status = 'Completed';
+        plan.completedLectures += 1;
+        plan.completedTopics += 1;
+        plan.remainingTopics = Math.max(0, plan.remainingTopics - 1);
+        showToast(`Lecture #${lec.lectureNum} marked Completed for ${plan.division} ✓`);
+      }
+
+      // Re-render only faculty syllabus
+      const currentFaculty = STATE.facultyDirectory.find(f => f.id === STATE.currentFacultyId);
+      renderFacultySyllabusPage(currentFaculty);
+    }
+
+    /* Add new lecture plan entry */
+    function handleAddNewLecturePlan(event) {
+      event.preventDefault();
+      const plan = STATE.syllabusPlans.find(p => p.planId === STATE.selectedSyllabusPlanId);
+      if (!plan || plan.facultyId !== STATE.currentFacultyId) {
+        showToast('Access Denied: You cannot modify this class.');
+        return;
+      }
+
+      const topic = document.getElementById('input-lecture-topic').value.trim();
+      const subtopics = document.getElementById('input-lecture-subtopics').value.trim();
+      const status = document.getElementById('input-lecture-status').value;
+
+      if (!topic) return;
+
+      const nextNum = plan.lectures.length > 0 
+        ? Math.max(...plan.lectures.map(l => l.lectureNum)) + 1 
+        : plan.completedLectures + 1;
+
+      const newLec = {
+        id: Date.now(),
+        lectureNum: nextNum,
+        topic: topic,
+        subtopics: subtopics,
+        dateSlot: status === 'Completed' ? 'Completed Today' : 'Upcoming Session',
+        status: status
+      };
+
+      plan.lectures.push(newLec);
+      plan.plannedLectures += 1;
+      if (status === 'Completed') {
+        plan.completedLectures += 1;
+        plan.completedTopics += 1;
+      } else {
+        plan.remainingTopics += 1;
+        plan.upcomingTopic = topic; // Set as upcoming topic
+      }
+
+      document.getElementById('form-add-lecture-plan').reset();
+      showToast(`Added Lecture #${nextNum} to ${plan.subject} (${plan.division})`);
+
+      const currentFaculty = STATE.facultyDirectory.find(f => f.id === STATE.currentFacultyId);
+      renderFacultySyllabusPage(currentFaculty);
+    }
+
+    function deleteLecturePlanItem(planId, lectureId) {
+      const plan = STATE.syllabusPlans.find(p => p.planId === planId);
+      if (!plan || plan.facultyId !== STATE.currentFacultyId) {
+        showToast('Access Denied');
+        return;
+      }
+
+      const index = plan.lectures.findIndex(l => l.id === lectureId);
+      if (index === -1) return;
+
+      const item = plan.lectures[index];
+      if (item.status === 'Completed') {
+        plan.completedLectures = Math.max(0, plan.completedLectures - 1);
+        plan.completedTopics = Math.max(0, plan.completedTopics - 1);
+      } else {
+        plan.remainingTopics = Math.max(0, plan.remainingTopics - 1);
+      }
+      plan.plannedLectures = Math.max(0, plan.plannedLectures - 1);
+
+      plan.lectures.splice(index, 1);
+      showToast('Lecture item removed.');
+
+      const currentFaculty = STATE.facultyDirectory.find(f => f.id === STATE.currentFacultyId);
+      renderFacultySyllabusPage(currentFaculty);
+    }
+
+    /* Modal for Quick Metrics Update */
+    function openSyllabusUpdateModal(planId) {
+      const plan = STATE.syllabusPlans.find(p => p.planId === planId);
+      if (!plan || plan.facultyId !== STATE.currentFacultyId) {
+        showToast('Access Denied');
+        return;
+      }
+
+      document.getElementById('edit-plan-id').value = plan.planId;
+      document.getElementById('modal-syllabus-title').innerText = `Update Syllabus: ${plan.subject} (${plan.division})`;
+      document.getElementById('edit-completed-units').value = plan.completedUnits;
+      document.getElementById('edit-total-units').value = plan.totalUnits;
+      document.getElementById('edit-completed-topics').value = plan.completedTopics;
+      document.getElementById('edit-remaining-topics').value = plan.remainingTopics;
+      document.getElementById('edit-completed-lectures').value = plan.completedLectures;
+      document.getElementById('edit-planned-lectures').value = plan.plannedLectures;
+      document.getElementById('edit-upcoming-topic').value = plan.upcomingTopic;
+      document.getElementById('edit-completion-date').value = plan.expectedCompletionDate;
+
+      document.getElementById('modal-update-syllabus').classList.remove('hidden');
+    }
+
+    function closeSyllabusModal() {
+      document.getElementById('modal-update-syllabus').classList.add('hidden');
+    }
+
+    function saveSyllabusMetrics(event) {
+      event.preventDefault();
+      const planId = document.getElementById('edit-plan-id').value;
+      const plan = STATE.syllabusPlans.find(p => p.planId === planId);
+
+      if (!plan || plan.facultyId !== STATE.currentFacultyId) {
+        showToast('Access Denied');
+        return;
+      }
+
+      plan.completedUnits = parseInt(document.getElementById('edit-completed-units').value) || 0;
+      plan.totalUnits = parseInt(document.getElementById('edit-total-units').value) || 6;
+      plan.completedTopics = parseInt(document.getElementById('edit-completed-topics').value) || 0;
+      plan.remainingTopics = parseInt(document.getElementById('edit-remaining-topics').value) || 0;
+      plan.completedLectures = parseInt(document.getElementById('edit-completed-lectures').value) || 0;
+      plan.plannedLectures = parseInt(document.getElementById('edit-planned-lectures').value) || 40;
+      plan.upcomingTopic = document.getElementById('edit-upcoming-topic').value.trim();
+      plan.expectedCompletionDate = document.getElementById('edit-completion-date').value;
+
+      closeSyllabusModal();
+      showToast(`Syllabus metrics saved for ${plan.subject} (${plan.division}) ✓`);
+
+      const currentFaculty = STATE.facultyDirectory.find(f => f.id === STATE.currentFacultyId);
+      renderFacultySyllabusPage(currentFaculty);
+    }
+
+    /* ---------------------------------------------------------
+       5. REPLACEMENT REQUESTS WORKFLOW (PEER-TO-PEER)
+       --------------------------------------------------------- */
+    function renderFacultyReplacementPage(fac) {
+      // 1. Incoming requests received by this faculty member
+      const incomingContainer = document.getElementById('incoming-requests-container');
+      const incomingList = STATE.replacementRequests.filter(r => r.toFacultyId === fac.id && r.status === 'Pending');
+      const incomingBadge = document.getElementById('badge-faculty-incoming-count');
+
+      if (incomingList.length > 0) {
+        incomingBadge.style.display = 'inline-block';
+        incomingBadge.innerText = incomingList.length;
+        document.getElementById('incoming-badge-count').innerText = `${incomingList.length} Awaiting Action`;
+      } else {
+        incomingBadge.style.display = 'none';
+        document.getElementById('incoming-badge-count').innerText = '0 Requests';
+      }
+
+      if (incomingList.length === 0) {
+        incomingContainer.innerHTML = `<div style="text-align:center; padding:24px; color:var(--text-muted);">No pending replacement requests from colleagues.</div>`;
+      } else {
+        incomingContainer.innerHTML = '';
+        incomingList.forEach(req => {
+          const item = document.createElement('div');
+          item.className = 'incoming-request-card';
+          item.innerHTML = `
+            <div>
+              <span class="badge badge-warning" style="margin-bottom:6px;">REPLACEMENT REQUEST</span>
+              <div style="font-size:14px; font-weight:800; color:#92400e;">
+                ${req.fromFacultyName} has requested you to take:
+              </div>
+              <div style="font-size:15px; font-weight:800; color:var(--text-main); margin-top:2px;">
+                ${req.subject} &nbsp;•&nbsp; Class: ${req.division}
+              </div>
+              <div style="font-size:12.5px; color:#78350f; margin-top:4px;">
+                Time: <strong>${req.time}</strong> &nbsp;|&nbsp; Room: <strong>${req.room}</strong> &nbsp;|&nbsp; Day: <strong>${req.day}</strong>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn btn-success btn-sm" onclick="acceptReplacementRequest('${req.id}')">
+                Accept
+              </button>
+              <button class="btn btn-secondary btn-sm" style="color:var(--danger);" onclick="rejectReplacementRequest('${req.id}')">
+                Reject
+              </button>
+            </div>
+          `;
+          incomingContainer.appendChild(item);
+        });
+      }
+
+      // 2. Request a Replacement Builder
+      const builderContainer = document.getElementById('request-replacement-builder-container');
+
+      if (fac.id === 'FAC-101') {
+        builderContainer.innerHTML = `
+          <div class="replacement-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+              <div>
+                <span class="badge badge-danger">REPLACEMENT REQUIRED</span>
+                <div style="font-size:16px; font-weight:800; color:#881337; margin-top:4px;">
+                  Subject: DBMS &nbsp;|&nbsp; Class: AD-1
+                </div>
+                <div style="font-size:12.5px; color:#4b5563; margin-top:2px;">
+                  Time: <strong>10:00 – 11:00</strong> &nbsp;|&nbsp; Room: <strong>Room 204</strong>
+                </div>
+              </div>
+              <span class="badge badge-success">4 Eligibility Rules Verified ✓</span>
+            </div>
+
+            <div style="font-size:12px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px;">
+              Eligible Faculty:
+            </div>
+
+            <!-- Candidate 1: Prof. Patil -->
+            <div class="replacement-candidate-card">
+              <div>
+                <strong style="font-size:14px; color:var(--text-main);">Prof. Patil</strong>
+                <div class="candidate-checks">
+                  <span>Same Department ✓</span>
+                  <span>Teaches AD-1 ✓</span>
+                  <span>Available ✓</span>
+                  <span>No Timetable Conflict ✓</span>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="sendFacultyReplacementRequest('FAC-102', 'Prof. Patil')">
+                Request to Take Lecture
+              </button>
+            </div>
+
+            <!-- Candidate 2: Prof. Joshi -->
+            <div class="replacement-candidate-card">
+              <div>
+                <strong style="font-size:14px; color:var(--text-main);">Prof. Joshi</strong>
+                <div class="candidate-checks">
+                  <span>Same Department ✓</span>
+                  <span>Teaches AD-1 ✓</span>
+                  <span>Available ✓</span>
+                  <span>No Timetable Conflict ✓</span>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="sendFacultyReplacementRequest('FAC-103', 'Prof. Joshi')">
+                Request to Take Lecture
+              </button>
+            </div>
+          </div>
+        `;
+      } else {
+        builderContainer.innerHTML = `
+          <div style="padding:20px; text-align:center; color:var(--text-muted); font-size:13px;">
+            You currently have no timetable clashes or scheduled replacement requests pending for your lectures.
+          </div>
+        `;
+      }
+
+      // 3. Sent Requests Table
+      const sentTbody = document.getElementById('table-sent-requests');
+      sentTbody.innerHTML = '';
+      const sentList = STATE.replacementRequests.filter(r => r.fromFacultyId === fac.id);
+
+      if (sentList.length === 0) {
+        sentTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:var(--text-muted);">No sent requests.</td></tr>`;
+      } else {
+        sentList.forEach(r => {
+          const tr = document.createElement('tr');
+          const badgeClass = r.status === 'Accepted' ? 'badge-success' : (r.status === 'Rejected' ? 'badge-danger' : 'badge-warning');
+          tr.innerHTML = `
+            <td>
+              <strong>${r.subject} (${r.division})</strong>
+              <div style="font-size:11px; color:var(--text-muted);">${r.time} • ${r.room}</div>
+            </td>
+            <td><strong>${r.toFacultyName}</strong></td>
+            <td>${r.createdTime}</td>
+            <td><span class="badge ${badgeClass}">${r.status}</span></td>
+          `;
+          sentTbody.appendChild(tr);
+        });
+      }
+    }
+
+    function sendFacultyReplacementRequest(toFacultyId, toFacultyName) {
+      const currentFaculty = STATE.facultyDirectory.find(f => f.id === STATE.currentFacultyId);
+
+      const existing = STATE.replacementRequests.find(r => r.fromFacultyId === currentFaculty.id && r.toFacultyId === toFacultyId && r.status === 'Pending');
+      if (existing) {
+        showToast(`Request already sent to ${toFacultyName}.`);
+        return;
+      }
+
+      const newReq = {
+        id: 'REQ-' + Date.now(),
+        fromFacultyId: currentFaculty.id,
+        fromFacultyName: currentFaculty.name,
+        toFacultyId: toFacultyId,
+        toFacultyName: toFacultyName,
+        subject: 'DBMS',
+        division: 'AD-1',
+        time: '10:00 – 11:00',
+        day: 'Monday',
+        room: 'Room 204',
+        status: 'Pending',
+        createdTime: 'Just now'
+      };
+
+      STATE.replacementRequests.unshift(newReq);
+
+      if (!STATE.facultyNotifications[toFacultyId]) STATE.facultyNotifications[toFacultyId] = [];
+      STATE.facultyNotifications[toFacultyId].unshift({
+        id: 'NOTIF-' + Date.now(),
+        title: 'Replacement Request Received',
+        text: `${currentFaculty.name} has requested you to take: DBMS (AD-1) today at 10:00–11:00 in Room 204.`,
+        time: 'Just now',
+        unread: true
+      });
+
+      showToast(`Replacement request sent to ${toFacultyName}!`);
+      renderFacultyAll();
+    }
+
+    function acceptReplacementRequest(requestId) {
+      const req = STATE.replacementRequests.find(r => r.id === requestId);
+      if (!req) return;
+
+      req.status = 'Accepted';
+
+      const slot = STATE.masterTimetable.find(t => t.id === 1);
+      if (slot) {
+        slot.facultyId = req.toFacultyId;
+        slot.facultyName = req.toFacultyName;
+        slot.status = 'Covered (Replacement)';
+      }
+
+      const acceptingFac = STATE.facultyDirectory.find(f => f.id === req.toFacultyId);
+      if (acceptingFac) {
+        acceptingFac.hours += 1;
+        acceptingFac.lectures += 1;
+      }
+
+      if (!STATE.facultyNotifications[req.fromFacultyId]) STATE.facultyNotifications[req.fromFacultyId] = [];
+      STATE.facultyNotifications[req.fromFacultyId].unshift({
+        id: 'NOTIF-ACC-' + Date.now(),
+        title: 'Replacement Request Accepted ✓',
+        text: `${req.toFacultyName} accepted your replacement request for DBMS (AD-1, 10:00–11:00, Room 204). The timetable has been updated.`,
+        time: 'Just now',
+        unread: true
+      });
+
+      showToast(`Replacement request accepted! Timetable automatically updated.`);
+      renderFacultyAll();
+      renderAdminAll();
+    }
+
+    function rejectReplacementRequest(requestId) {
+      const req = STATE.replacementRequests.find(r => r.id === requestId);
+      if (!req) return;
+
+      req.status = 'Rejected';
+
+      if (!STATE.facultyNotifications[req.fromFacultyId]) STATE.facultyNotifications[req.fromFacultyId] = [];
+      STATE.facultyNotifications[req.fromFacultyId].unshift({
+        id: 'NOTIF-REJ-' + Date.now(),
+        title: 'Replacement Request Declined',
+        text: `${req.toFacultyName} was unable to accept your replacement request for DBMS (AD-1). You can request another eligible colleague.`,
+        time: 'Just now',
+        unread: true
+      });
+
+      showToast(`Replacement request declined.`);
+      renderFacultyAll();
+    }
+
+    /* ---------------------------------------------------------
+       6. NOTIFICATIONS FEED
+       --------------------------------------------------------- */
+    function renderFacultyNotifications(fac) {
+      const container = document.getElementById('faculty-notifications-feed');
+      container.innerHTML = '';
+      const notifs = STATE.facultyNotifications[fac.id] || [];
+
+      if (notifs.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">You have no notifications.</div>`;
+        return;
+      }
+
+      notifs.forEach(n => {
+        const item = document.createElement('div');
+        item.style.padding = '14px 16px';
+        item.style.borderRadius = 'var(--radius-md)';
+        item.style.border = `1px solid ${n.unread ? '#a7f3d0' : 'var(--surface-border)'}`;
+        item.style.background = n.unread ? 'var(--primary-light)' : 'var(--surface)';
+        item.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              ${n.unread ? '<span style="width:7px; height:7px; border-radius:50%; background:var(--primary);"></span>' : ''}
+              <h4 style="font-size:14px; font-weight:700; color:var(--text-main);">${n.title}</h4>
+            </div>
+            <span style="font-size:11.5px; color:var(--text-muted);">${n.time}</span>
+          </div>
+          <p style="font-size:12.5px; color:var(--text-muted); margin-top:6px; line-height:1.5;">${n.text}</p>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function markAllNotificationsRead() {
+      const facId = STATE.currentFacultyId;
+      if (STATE.facultyNotifications[facId]) {
+        STATE.facultyNotifications[facId].forEach(n => n.unread = false);
+      }
+      const currentFaculty = STATE.facultyDirectory.find(f => f.id === facId);
+      renderFacultyNotifications(currentFaculty);
+      document.getElementById('badge-faculty-notif-count').innerText = '0';
+      showToast('Notifications marked as read.');
+    }
+
+    /* ---------------------------------------------------------
+       Feedback Toast
+       --------------------------------------------------------- */
+    function showToast(message) {
+      const shelf = document.getElementById('toast-shelf');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>${message}</span>
+      `;
+      shelf.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    /* ---------------------------------------------------------
+       Initialization
+       --------------------------------------------------------- */
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const roleParam = params.get('role');
+      const hash = window.location.hash.toLowerCase();
+
+      if (roleParam === 'admin' || hash.includes('admin')) {
+        handleAdminLogin(new Event('submit'));
+      } else if (roleParam === 'faculty' || hash.includes('faculty')) {
+        const facId = params.get('id') || 'FAC-101';
+        document.getElementById('faculty-id').value = facId;
+        handleFacultyLogin(new Event('submit'));
+      }
+    });
+
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash.includes('admin') && STATE.currentUserRole !== 'admin') {
+        handleAdminLogin(new Event('submit'));
+      } else if (hash.includes('faculty') && STATE.currentUserRole !== 'faculty') {
+        handleFacultyLogin(new Event('submit'));
+      } else if (hash === '' || hash === '#login') {
+        performLogout();
+      }
+    });
+  </script>
+</body>
+</html>
